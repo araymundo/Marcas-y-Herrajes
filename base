@@ -1,0 +1,67 @@
+package javaapplication1;
+import java.awt.*;
+import java.awt.event.*;
+import java.awt.image.*;
+import java.io.*;
+import javax.imageio.*;
+import javax.swing.*;
+
+/**
+ *
+ * @author araymundo
+ */
+
+public class JavaApplication1 extends Component{
+    /**
+     * @param args the command line arguments
+     */
+    
+    BufferedImage img;
+
+    public void paint(Graphics g) {
+        g.drawImage(img, 0, 0, null);
+    }
+
+    public JavaApplication1() {
+       try {
+           img = ImageIO.read(new File("Productor41.jpg"));
+       } catch (IOException e) {
+       }
+       //Image I/O recognises the contents of the file as a JPEG format image, 
+       //and decodes it into a BufferedImage which can be directly used by Java 2D.
+    }
+
+//    @Override
+    public Dimension getPreferredSize() {
+    	int cont=0;
+    	if (img == null) {
+            System.out.println("Error al cargar la imagen: Archivo null" );
+            return new Dimension(100,100);             
+        } else {
+            for(int i=0; i<300; i++)
+            	if (img.getRGB(i,i) != -1){
+                System.out.println("Data: "+i+" es " +img.getRGB(i,i)+" :" );
+                cont++;
+            	}
+            System.out.println("cont: "+cont); 
+            System.out.println("createGraphics: " +img.createGraphics());
+            System.out.println("Data: " +img.getData()+" :" );
+           System.out.println("Ancho: " + img.getWidth(null)+"\nAlto: " +img.getHeight(null));
+           return new Dimension(img.getWidth(null), img.getHeight(null));           
+       }
+    }
+    
+    public static void main(String[] args) { 
+        // TODO code application logic here
+     JFrame f = new JFrame("Image");
+            
+        f.addWindowListener(new WindowAdapter(){
+                public void windowClosing(WindowEvent e) {
+                    System.exit(0);
+                }
+            });
+        f.add(new JavaApplication1());
+        f.pack();
+        f.setVisible(true);
+    }    
+}
